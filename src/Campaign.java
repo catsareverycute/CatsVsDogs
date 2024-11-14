@@ -1,10 +1,13 @@
 import java.util.HashMap;
+import java.text.DecimalFormat;
 
 public class Campaign {
+    DecimalFormat format = new DecimalFormat("#.##");
     private int day = 1;
     private int yourVotes = 0;
     private int oppVotes = 0;
     private int workers = 0;
+    private int energy = 5;
     private double budget = 9999;
     private double voteMultiplier = 1;
     private String name;
@@ -47,35 +50,44 @@ public class Campaign {
         return day;
     }
 
+    public int showEnergy() {
+        return energy;
+    }
+
     public double showBudget() {
         return budget;
     }
 
     public String postPromo(String post) {
-        return "hi";
+        double multiplier = 50 * day;
+        double money = Double.parseDouble(format.format(Math.random()*multiplier));
+        energy--;
+        return "You posted: \"" + post + "\" You gained $" + money + ".";
     }
 
     public void hireWorkers(int workers) {
         this.workers += workers;
+        budget -= 1000 * workers;
         voteMultiplier = Math.pow(1.05, this.workers);
+        energy--;
     }
 
     public String autoPost() {
-        String[] ilovenumbers = {"Je suis Thomas","Je m'apelle Elle","Bonne nuit"};
-        int postTest = (int) Math.random() * 10;
+        String[] ilovenumbers = {"Je suis Thomas.","Je m'apelle Elle.","Bonne nuit.","Je parle anglais."};
+        int postTest = (int) (Math.random() * 4);
+        String meow = ilovenumbers[postTest];
+        return meow;
     }
 
-    public void sleep() {
-        if (day % 3 == 0){
-            String test = "A post was made by your workers: " + autoPost() + " You gained $ " + Math.random() * 10 + 1;
-        }
-        String testBudget = "Statistics\nYour budget: " + budget + "\n";
-        for (int i: catStates.values()) {
-            if (i > 2000000) {
-
+    public String sleep() {
+        String test = "";
+        if (workers >= 1) {
+            if (day % 3 == 0) {
+                test = "\nA post was made by your workers: \"" + autoPost() + "\" You gained $" + format.format((Math.random() * 10) + 1) + ".";
             }
         }
-        String testVotes = "You're doing well in ";
+        energy = 5;
         day++;
+        return test;
     }
 }

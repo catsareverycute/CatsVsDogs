@@ -1,11 +1,9 @@
-import java.util.HashMap;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 
 public class Main {
     public static void main(String[] args) {
-        DecimalFormat format;
-        format = new DecimalFormat("#.##");
+        DecimalFormat format = new DecimalFormat("#.##");
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome. You will be a candidate for the election of 4202. Please input your information before you can start.");
         System.out.println("What is your name?");
@@ -42,11 +40,13 @@ public class Main {
             }
             if (!(hi.showDay() == 20)) {
                 System.out.println("\nDay " + hi.showDay() + ": " + debate + (30 - hi.showDay()) + " days before Election Day.");
-                System.out.println("Your budget is: " + format.format(hi.showBudget()) + ", what do you want to do today?");
-                System.out.println("\n1. Post Promotion (Gain money for other campaigning options)\n2. Hire Workers (For $1,000, hire a social media manager to post for you\n3. Travel to State (For $10,000, campaign at a chosen state)\n4. View Posts (Shows posts YOU made and their statistics)\n5. Sleep (Ends the day)");
+                System.out.println("Your budget is: " + format.format(hi.showBudget()) + ", your energy is: " + hi.showEnergy() + ". What do you want to do today?");
+                System.out.println("\n1. Post Promotion (Gain money for other campaigning options. [-1 energy])\n2. Hire Workers (For $1,000, hire social media managers to post for you. Money for each of their posts, vote multiplier depending on the number of workers. [-1 energy])\n3. Travel to State (For $10,000, campaign at a chosen state. Main way to gain votes. [-5 energy])\n4. View Posts (Shows posts YOU made and their statistics)\n5. Sleep (Ends the day)");
                 String option = s.nextLine();
                 if (option.equals("1")) {
-                    System.out.println("coolio");
+                    System.out.println("Please enter what you would like to post.");
+                    String post = s.nextLine();
+                    System.out.println(hi.postPromo(post));
                 }
                 if (option.equals("2")) {
                     if (hi.showBudget() < 1000) {
@@ -58,12 +58,13 @@ public class Main {
                         if (workers > max || workers < 0) {
                             System.out.println("Please enter a number from a range of 1 to " + max);
                         } else {
-                            System.out.println("fire");
+                            hi.hireWorkers(workers);
+                            System.out.println("Success. You now have " + hi.showEnergy() + " energy left.");
                         }
                     }
                 }
                 if (option.equals("5")) {
-                    hi.sleep();
+                    System.out.println(hi.sleep());
                 }
             }
 
