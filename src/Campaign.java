@@ -59,8 +59,9 @@ public class Campaign {
     }
 
     public String postPromo(String post) {
-        double multiplier = 50 * day;
-        double money = Double.parseDouble(format.format(Math.random()*multiplier));
+        double multiplier = 100 * day;
+        double money = Double.parseDouble(format.format((Math.random()*multiplier) + multiplier));
+        budget += money;
         energy--;
         return "You posted: \"" + post + "\" You gained $" + money + ".";
     }
@@ -72,18 +73,43 @@ public class Campaign {
         energy--;
     }
 
+    public void travelState(String state) {
+        budget -= 10000;
+        if (dogStates.containsKey(state)){
+                dogStates.replace(state, 10);
+        }
+        if (catStates.containsKey(state)){
+            catStates.replace(state, 10);
+        }
+        if (swingStates.containsKey(state)){
+            swingStates.replace(state, 10);
+        }
+    }
+
     public String autoPost() {
-        String[] ilovenumbers = {"Je suis Thomas.","Je m'apelle Elle.","Bonne nuit.","Je parle anglais."};
+        String meow;
+        String[] catPosts = {"Cats are so adorable, come support the cats now!","Les chats sont très adorables, venez soutenir les chats maintenant!","猫猫很可爱，快来支持猫猫吧!",
+                "Los gatos son muy adorables, ¡apoya a los gatos ya!"};
+        String[] dogPosts = {"Dogs are so adorable, come support the dogs now!","Les chiens sont très adorables, venez soutenir les chats maintenant!","狗狗很可爱，快来支持狗狗吧!",
+                "Los perros son muy adorables, ¡apoya a los perros ya!"};
         int postTest = (int) (Math.random() * 4);
-        String meow = ilovenumbers[postTest];
+        if (party.equals("cat")) {
+            meow = catPosts[postTest];
+        }
+        else {
+            meow = dogPosts[postTest];
+        }
         return meow;
     }
 
     public String sleep() {
+        double multiplier = 50 * day;
+        double money = Double.parseDouble(format.format(Math.random()*multiplier));
         String test = "";
         if (workers >= 1) {
             if (day % 3 == 0) {
-                test = "\nA post was made by your workers: \"" + autoPost() + "\" You gained $" + format.format((Math.random() * 10) + 1) + ".";
+                budget += money;
+                test = "\nA post was made by your workers: \"" + autoPost() + "\" You gained $" + money + ".";
             }
         }
         energy = 5;
