@@ -60,7 +60,7 @@ public class Main {
                     if (option.equals("2")) {
                         int workers;
                         if (hi.showBudget() < 1000) {
-                            System.out.println("haha poor");
+                            System.out.println("You need " + (1000 - hi.showBudget()) + " more dollars.");
                         } else {
                             int max = ((int) hi.showBudget() / 1000);
                             System.out.println("You can hire up to " + max + " workers. Please enter the amount of workers you would like to hire.");
@@ -71,6 +71,19 @@ public class Main {
                             }
                             hi.hireWorkers(workers);
                             System.out.println("Success. You now have " + hi.showEnergy() + " energy left.");
+                        }
+                    }
+                    if (option.equals("3")){
+                        if (hi.showBudget() < 10000) {
+                            System.out.println("You need " + (10000 - hi.showBudget()) + " more dollars.");
+                        }
+                        else if (hi.showEnergy() < 5) {
+                            System.out.println("");
+                        }
+                        else {
+                            System.out.println("Which state would you like to go to?");
+                            String state = s.nextLine();
+                            hi.travelState(state);
                         }
                     }
                     if (option.equals("5")) {

@@ -75,8 +75,10 @@ public class Campaign {
 
     public void travelState(String state) {
         budget -= 10000;
+        state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
         if (dogStates.containsKey(state)){
-                dogStates.replace(state, 10);
+            dogStates.replace(state, dogStates.get(state) + 100);
+            System.out.println(dogStates.get(state));
         }
         if (catStates.containsKey(state)){
             catStates.replace(state, 10);
@@ -84,6 +86,7 @@ public class Campaign {
         if (swingStates.containsKey(state)){
             swingStates.replace(state, 10);
         }
+        energy = energy - 5;
     }
 
     public String autoPost() {
