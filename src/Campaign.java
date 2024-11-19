@@ -58,6 +58,10 @@ public class Campaign {
         return budget;
     }
 
+    public String showName() {
+        return name;
+    }
+
     public String postPromo(String post) {
         double multiplier = 100 * day;
         double money = Double.parseDouble(format.format((Math.random()*multiplier) + multiplier));

@@ -32,8 +32,27 @@ public class Main {
         while (hi.showDay() < 31) {
             String debate = (20 - hi.showDay()) + " days before the Presidential Debate, ";
             if (hi.showDay() == 20) {
-                System.out.println("The Presidential Debate is today! Let's go to France!");
-                String stop = s.nextLine();
+                Debate test = new Debate(party);
+                test.randomName();
+                System.out.println("The Presidential Debate is today! Let's go to the Bird News Station!");
+                System.out.println("Welcome to this year's Presidential Debate! I'm your host, Bird, and I'll be asking these candidates some questions.");
+                System.out.println("Our candidates are " + hi.showName() + " and " + test.showOppName() + "!");
+                System.out.println("Now, " + hi.showName() + ". What are your plans regarding staying indoors for this nation?");
+                System.out.println("Choose a response: \n1. I will allow our citizens to stay inside for as long as they want!\n2. Citizens will have to go outside each day to be healthy and have fun!\n3. I wouldn't stay inside for a long time, but sometimes, you don't have to go outside everyday.\n4. Um...");
+                int response = s.nextInt();
+                while (!(response > 4) || !(response < 0)) {
+                    System.out.println("Please enter an option from 1-4.");
+                    response = s.nextInt();
+                }
+                System.out.println("Alright! How about you, " + test.showOppName() + "?");
+                System.out.println(test.showOppName() + ": " + test.oppRandomLine());
+                System.out.println("Wow! Tell me, " + hi.showName() + ". How will you accommodate for the other party?");
+                System.out.println("Choose a response: \n1. Everyone gets any snacks they want!\n2. Everyone can sleep when they want!\n3. Everyone gets all the luxuries!\n4. Uhh...");
+                response = s.nextInt();
+                while (!(response > 4) || !(response < 0)) {
+                    System.out.println("Please enter an option from 1-4.");
+                    response = s.nextInt();
+                }
             }
             else if (hi.showDay() > 19) {
                 debate = "";
@@ -78,7 +97,7 @@ public class Main {
                             System.out.println("You need " + (10000 - hi.showBudget()) + " more dollars.");
                         }
                         else if (hi.showEnergy() < 5) {
-                            System.out.println("");
+                            System.out.println("Not enough energy!");
                         }
                         else {
                             System.out.println("Which state would you like to go to?");
