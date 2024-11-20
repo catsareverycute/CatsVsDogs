@@ -32,27 +32,38 @@ public class Main {
         while (hi.showDay() < 31) {
             String debate = (20 - hi.showDay()) + " days before the Presidential Debate, ";
             if (hi.showDay() == 20) {
-                Debate test = new Debate(party);
+                Debate test = new Debate(name, party);
                 test.randomName();
                 System.out.println("The Presidential Debate is today! Let's go to the Bird News Station!");
                 System.out.println("Welcome to this year's Presidential Debate! I'm your host, Bird, and I'll be asking these candidates some questions.");
-                System.out.println("Our candidates are " + hi.showName() + " and " + test.showOppName() + "!");
-                System.out.println("Now, " + hi.showName() + ". What are your plans regarding staying indoors for this nation?");
+                System.out.println("Our candidates are " + test.showName() + " and " + test.showOppName() + "!");
+                System.out.println("Now, " + test.showName() + ". What are your plans regarding staying indoors for this nation?");
                 System.out.println("Choose a response: \n1. I will allow our citizens to stay inside for as long as they want!\n2. Citizens will have to go outside each day to be healthy and have fun!\n3. I wouldn't stay inside for a long time, but sometimes, you don't have to go outside everyday.\n4. Um...");
                 int response = s.nextInt();
-                while (!(response > 4) || !(response < 0)) {
+                while ((response > 4) || (response < 0)) {
                     System.out.println("Please enter an option from 1-4.");
                     response = s.nextInt();
                 }
+                test.debateVotes(response);
+                test.oppDebateVotes();
                 System.out.println("Alright! How about you, " + test.showOppName() + "?");
                 System.out.println(test.showOppName() + ": " + test.oppRandomLine());
                 System.out.println("Wow! Tell me, " + hi.showName() + ". How will you accommodate for the other party?");
                 System.out.println("Choose a response: \n1. Everyone gets any snacks they want!\n2. Everyone can sleep when they want!\n3. Everyone gets all the luxuries!\n4. Uhh...");
                 response = s.nextInt();
-                while (!(response > 4) || !(response < 0)) {
+                while ((response > 4) || (response < 0)) {
                     System.out.println("Please enter an option from 1-4.");
                     response = s.nextInt();
                 }
+                test.debateVotes(response);
+                test.oppDebateVotes();
+                System.out.println("And now, " + test.showOppName() + ", what do you have to say?");
+                System.out.println(test.showOppName() + ": " + test.oppRandomLine());
+                System.out.println("Very well. Any final words?");
+                String finalWords = s.nextLine();
+                test.finalWords(finalWords);
+                System.out.println("That's all for today folks! Good night!");
+                hi.sleep();
             }
             else if (hi.showDay() > 19) {
                 debate = "";
@@ -79,7 +90,7 @@ public class Main {
                     if (option.equals("2")) {
                         int workers;
                         if (hi.showBudget() < 1000) {
-                            System.out.println("You need " + (1000 - hi.showBudget()) + " more dollars.");
+                            System.out.println("You need " + format.format(1000 - hi.showBudget()) + " more dollars.");
                         } else {
                             int max = ((int) hi.showBudget() / 1000);
                             System.out.println("You can hire up to " + max + " workers. Please enter the amount of workers you would like to hire.");
@@ -94,14 +105,18 @@ public class Main {
                     }
                     if (option.equals("3")){
                         if (hi.showBudget() < 10000) {
-                            System.out.println("You need " + (10000 - hi.showBudget()) + " more dollars.");
+                            System.out.println("You need " + format.format(10000 - hi.showBudget()) + " more dollars.");
                         }
                         else if (hi.showEnergy() < 5) {
                             System.out.println("Not enough energy!");
                         }
                         else {
-                            System.out.println("Which state would you like to go to?");
+                            System.out.println("Which state would you like to go to?\nCat States: Vermont, Maine, Massachusetts, Rhode Island, New Hampshire");
                             String state = s.nextLine();
+                            while ((!hi.catStates.containsKey(state)) || (!hi.dogStates.containsKey(state)) || (!hi.swingStates.containsKey(state))){
+                                System.out.println("Please enter a valid state.");
+                                state = s.nextLine();
+                            }
                             hi.travelState(state);
                         }
                     }

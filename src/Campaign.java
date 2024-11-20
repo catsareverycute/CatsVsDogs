@@ -12,9 +12,9 @@ public class Campaign {
     private double voteMultiplier = 1;
     private String name;
     private String party;
-    private HashMap<String, Integer> catStates = new HashMap<String, Integer>();
-    private HashMap<String, Integer> dogStates = new HashMap<String, Integer>();
-    private HashMap<String, Integer> swingStates = new HashMap<String, Integer>();
+    public HashMap<String, Integer> catStates = new HashMap<String, Integer>();
+    public HashMap<String, Integer> dogStates = new HashMap<String, Integer>();
+    public HashMap<String, Integer> swingStates = new HashMap<String, Integer>();
 
     public Campaign(String name, String party) {
         this.name = name;
@@ -80,17 +80,31 @@ public class Campaign {
     public void travelState(String state) {
         budget -= 10000;
         state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
-        if (dogStates.containsKey(state)){
-            dogStates.replace(state, dogStates.get(state) + 100);
-            System.out.println(dogStates.get(state));
+        if (party.equals("dog")) {
+            if (dogStates.containsKey(state)) {
+                dogStates.replace(state, dogStates.get(state) + ((int) (Math.random() * 10000) + 5000));
+                System.out.println(dogStates.get(state));
+            }
+            else if (catStates.containsKey(state)) {
+                catStates.replace(state, catStates.get(state) + ((int) (Math.random() * 10000) + 1000));
+                System.out.println(catStates.get(state));
+            }
         }
-        if (catStates.containsKey(state)){
-            catStates.replace(state, 10);
+        if (party.equals("cat")) {
+            if (dogStates.containsKey(state)) {
+                dogStates.replace(state, dogStates.get(state) + ((int) (Math.random() * 10000) + 1000));
+                System.out.println(dogStates.get(state));
+            }
+            else if (catStates.containsKey(state)) {
+                catStates.replace(state, catStates.get(state) + ((int) (Math.random() * 10000) + 5000));
+                System.out.println(catStates.get(state));
+            }
         }
         if (swingStates.containsKey(state)){
-            swingStates.replace(state, 10);
+            swingStates.replace(state, swingStates.get(state) + ((int) (Math.random()*10000)+10000));
+            System.out.println(swingStates.get(state));
         }
-        energy = energy - 5;
+        energy -= 5;
     }
 
     public String autoPost() {
@@ -111,7 +125,7 @@ public class Campaign {
 
     public String sleep() {
         double multiplier = 50 * day;
-        double money = Double.parseDouble(format.format(Math.random()*multiplier));
+        double money = Double.parseDouble(format.format((Math.random()*multiplier)+multiplier));
         String test = "";
         if (workers >= 1) {
             if (day % 3 == 0) {
