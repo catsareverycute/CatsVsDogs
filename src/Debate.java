@@ -73,4 +73,10 @@ public class Debate {
             votes += 50000;
         }
     }
+    public int yourVotes() {
+        return votes;
+    }
+    public int oppVotes() {
+        return oppVotes;
+    }
 }
