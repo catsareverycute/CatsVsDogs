@@ -81,15 +81,15 @@ public class Main {
                 if (campaign.showEnergy() == 0) {
                     System.out.println("\nDay " + campaign.showDay() + ": " + debate + (30 - campaign.showDay()) + " days before Election Day.");
                     System.out.println("Your budget is: " + format.format(campaign.showBudget()) + ", your energy is: " + campaign.showEnergy() + ". What do you want to do today?");
-                    System.out.println("5. Sleep (Ends the day)");
+                    System.out.println("4. Sleep (Ends the day)");
                     String option = s.nextLine();
-                    if (option.equals("5")) {
+                    if (option.equals("4")) {
                         System.out.println(campaign.sleep());
                     }
                 } else {
                     System.out.println("\nDay " + campaign.showDay() + ": " + debate + (30 - campaign.showDay()) + " days before Election Day.");
                     System.out.println("Your budget is: " + format.format(campaign.showBudget()) + ", your energy is: " + campaign.showEnergy() + ". What do you want to do today?");
-                    System.out.println("\n1. Post Promotion (Gain money for other campaigning options. [-1 energy])\n2. Hire Workers (For $1,000, hire social media managers to post for you. Money for each of their posts, vote multiplier depending on the number of workers. [-1 energy])\n3. Travel to State (For $10,000, campaign at a chosen state. Main way to gain votes. [-5 energy])\n4. View Posts (Shows posts YOU made and their statistics)\n5. Sleep (Ends the day)");
+                    System.out.println("\n1. Post Promotion (Gain money for other campaigning options. [-1 energy])\n2. Hire Workers (For $1,000, hire social media managers to post for you. Money for each of their posts, vote multiplier depending on the number of workers. [-1 energy])\n3. Travel to State (For $10,000, campaign at a chosen state. Main way to gain votes. [-5 energy])\n4. Sleep (Ends the day)");
                     String option = s.nextLine();
                     if (option.equals("1")) {
                         System.out.println("Please enter what you would like to post.");
@@ -129,7 +129,7 @@ public class Main {
                             campaign.travelState(state);
                         }
                     }
-                    if (option.equals("5")) {
+                    if (option.equals("4")) {
                         System.out.println(campaign.sleep());
                     }
                 }
