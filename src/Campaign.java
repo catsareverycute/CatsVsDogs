@@ -204,7 +204,6 @@ public class Campaign {
         int gainedOwnVotes = ((int) (Math.random() * 10000) + 5000);
         int gainedOppVotes = ((int) (Math.random() * 10000) + 1000);
         int gainedSwingVotes = ((int) (Math.random() * 10000) + 10000);
-        state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
         if (party.equals("dog")) {
             if (dogStates.containsKey(state)) {
                 dogStates.replace(state, dogStates.get(state) + (gainedOwnVotes));
