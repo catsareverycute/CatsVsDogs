@@ -10,15 +10,13 @@ public class Campaign {
     private int energy = 5;
     private double budget = 0;
     private double voteMultiplier = 1;
-    private String name;
     private String party;
     public boolean pass = true;
     public HashMap<String, Integer> catStates = new HashMap<String, Integer>();
     public HashMap<String, Integer> dogStates = new HashMap<String, Integer>();
     public HashMap<String, Integer> swingStates = new HashMap<String, Integer>();
 
-    public Campaign(String name, String party) {
-        this.name = name;
+    public Campaign(String party) {
         this.party = party.toLowerCase();
         catStates.put("Vermont", 0);
         catStates.put("Maine", 0);
@@ -186,14 +184,6 @@ public class Campaign {
         return energy;
     }
 
-    public double showBudget() {
-        return budget;
-    }
-
-    public String showName() {
-        return name;
-    }
-
     public String postPromo(String post) {
         double multiplier = 500 * day;
         double money = Double.parseDouble(format.format((Math.random()*multiplier) + multiplier));
@@ -268,7 +258,7 @@ public class Campaign {
         oppVotes += (int) (Math.random() * (day * 1000) + 1000);
         return test;
     }
-    
+
     public int finalVotes(Integer votes) {
         for (int i : catStates.values()) {
             yourVotes += i;
