@@ -8,7 +8,7 @@ public class Campaign {
     private int oppVotes = 5000000;
     private int workers = 0;
     private int energy = 5;
-    private double budget = 9999;
+    private double budget = 0;
     private double voteMultiplier = 1;
     private String name;
     private String party;
@@ -23,14 +23,14 @@ public class Campaign {
         catStates.put("Vermont", 0);
         catStates.put("Maine", 0);
         catStates.put("Massachusetts", 0);
-        catStates.put("Rhode Island", 0);
-        catStates.put("New Hampshire", 0);
-        dogStates.put("Idaho", 0);
+        catStates.put("Indiana", 0);
+        catStates.put("Iowa", 0);
+        dogStates.put("Texas", 0);
         dogStates.put("Montana", 0);
         dogStates.put("Arkansas", 0);
         dogStates.put("Mississippi", 0);
         dogStates.put("Oklahoma", 0);
-        swingStates.put("New York", 0);
+        swingStates.put("Washington", 0);
         swingStates.put("Delaware", 0);
         swingStates.put("Pennsylvania", 0);
         swingStates.put("Idaho", 0);
@@ -43,6 +43,9 @@ public class Campaign {
 
     public void changeParty(String party) {
         this.party = party.toLowerCase();
+    }
+
+    public void starterVotes() {
         if (party.equals("cat")) {
             for (String i : catStates.keySet()) {
                 catStates.replace(i, 1000000);
@@ -72,66 +75,72 @@ public class Campaign {
 
     public String campaignMessage() {
         String message = "";
-        String debate = (20 - day) + " days before the Presidential Debate, ";
-        if (day == 20) {
-            message = "The Presidential Debate is today! Are you ready?";
-        }
-        else if (day > 19) {
+        String debate = (15 - day) + " days before the Presidential Debate, ";
+        if (day > 15) {
             debate = "";
         }
         if (energy == 0) {
-            message = "\nDay " + day + ": " + debate + " days before Election Day.\nYour budget is: " + format.format(budget) + ", your energy is: " + energy + ". What do you want to do today?\n5. Sleep (Ends the day)";
+            message = "\nDay " + day + ": " + debate + " days before Election Day.\nYour budget is: " + format.format(budget) + ", your energy is: " + energy + ". What do you want to do today?\n\n4. Sleep (Ends the day.)";
         } else {
-            message = "\nDay " + day + ": " + debate + (30 - day) + " days before Election Day.\nYour budget is: " + format.format(budget) + ", your energy is: " + energy + ". What do you want to do today?\n\n1. Post Promotion (Gain money for other campaigning options. [-1 energy])\n2. Hire Workers (For $1,000, hire social media managers to post for you. Money for each of their posts, vote multiplier depending on the number of workers. [-1 energy])\n3. Travel to State (For $10,000, campaign at a chosen state. Main way to gain votes. [-5 energy])\n4. Sleep (Ends the day.)";
+            message = "\nDay " + day + ": " + debate + (20 - day) + " days before Election Day.\nYour budget is: " + format.format(budget) + ", your energy is: " + energy + ". What do you want to do today?\n\n1. Post Promotion (Gain money for other campaigning options. [-1 energy])\n2. Hire Workers (For $1,000, hire social media managers to post for you. Money for each of their posts, vote multiplier depending on the number of workers. [-1 energy])\n3. Travel to State (For $10,000, campaign at a chosen state. Main way to gain votes. [-5 energy])\n4. Sleep (Ends the day.)";
         }
     return message;
     }
 
-    public String checkOption(Integer option, boolean pass) {
+    public String checkOption(String option) {
         String message = "";
-        if (option == 1) {
+        if (!((option.equals("1")) || (option.equals("2")) || (option.equals("3")) || (option.equals("4")))){
+            message = "Please enter a valid option. (1-4)";
+            this.pass = false;
+        }
+        else if (Integer.parseInt(option) == 1) {
             message = "Please enter what you would like to post.";
         }
-        else if (option == 2) {
+        else if (Integer.parseInt(option) == 2) {
             if (budget < 1000) {
                 message = "You need " + format.format(1000 - budget) + " more dollars.";
-                pass = false;
+                this.pass = false;
             } else {
                 int max = ((int) budget / 1000);
                 message = "You can hire up to " + max + " workers. Please enter the amount of workers you would like to hire.";
             }
         }
-        else if (option == 3){
-            if (budget < 10000) {
-                message = "You need " + format.format(10000 - budget) + " more dollars.";
-                pass = false;
-            }
-            else if (energy < 5) {
+        else if (Integer.parseInt(option) == 3){
+            if (energy < 5) {
                 message = "Not enough energy!";
-                pass = false;
+                this.pass = false;
+            }
+            else if (budget < 10000) {
+                message = "You need " + format.format(10000 - budget) + " more dollars.";
+                this.pass = false;
             }
             else {
-                message = "Which state would you like to go to?\nCat States: Vermont, Maine, Massachusetts, Rhode Island, New Hampshire";
+                message = "Which state would you like to go to?\nCat States: Vermont, Maine, Massachusetts, Indiana, Iowa\nDog States: Texas, Montana, Arkansas, Mississippi, Oklahoma\nSwing States: Washington, Delaware, Pennsylvania, Idaho, Wyoming";
             }
         }
-        else if (option == 4) {
+        else if (Integer.parseInt(option) == 4) {
             message = "Are you sure you want to go to sleep? (Yes/No)";
         }
         return message;
         
     }
 
+    public boolean checkPass() {
+        return pass;
+    }
+
     public boolean invalidOption(Integer option) {
         return ((option > 4) || (option< 0));
     }
 
-    public String campaignOptions(Integer option, String response)
+    public String campaignOptions(String option, String response)
     {
         String message = "";
-        if (option == 1) {
+        if (option.equals("1")) {
             message = (postPromo(response));
+            pass = false;
         }
-        else if (option == 2) {
+        else if (option.equals("2")) {
             int max = ((int) budget / 1000);
             if (Integer.parseInt(response) > max || Integer.parseInt(response) < 1) {
                    message = "Please enter a number from a range of 1 to " + max + ".";
@@ -139,18 +148,31 @@ public class Campaign {
             else {
                 hireWorkers(Integer.parseInt(response));
                 message = "Success. You now have " + energy + " energy left.";
+                pass = false;
             }
         }
-        else if (option == 3){
-            if ((!catStates.containsKey(response)) || (!dogStates.containsKey(response)) || (!swingStates.containsKey(response))){
+        else if (option.equals("3")){
+            response = response.substring(0,1).toUpperCase() + response.substring(1).toLowerCase();
+            if (!((catStates.containsKey(response)) || (dogStates.containsKey(response)) || (swingStates.containsKey(response)))){
                 message = "Please enter a valid state.";
                 }
             else {
                 travelState(response);
+                pass = false;
+                message = "You visited " + response + "! You gained more voters!";
             }
         }
-        else if (option == 4) {
-            message = sleep();
+        else if (option.equals("4")) {
+            if (response.toLowerCase().equals("yes")) {
+                message = sleep();
+                pass = false;
+            }
+            else if (response.toLowerCase().equals("no")) {
+                pass = false;
+            }
+            else {
+                message = "Please enter a valid option. (Yes/No)";
+            }
         }
         return message;
     }
@@ -173,7 +195,7 @@ public class Campaign {
     }
 
     public String postPromo(String post) {
-        double multiplier = 100 * day;
+        double multiplier = 500 * day;
         double money = Double.parseDouble(format.format((Math.random()*multiplier) + multiplier));
         budget += money;
         energy--;
@@ -189,30 +211,28 @@ public class Campaign {
 
     public void travelState(String state) {
         budget -= 10000;
+        int gainedOwnVotes = ((int) (Math.random() * 10000) + 5000);
+        int gainedOppVotes = ((int) (Math.random() * 10000) + 1000);
+        int gainedSwingVotes = ((int) (Math.random() * 10000) + 10000);
         state = state.substring(0,1).toUpperCase() + state.substring(1).toLowerCase();
         if (party.equals("dog")) {
             if (dogStates.containsKey(state)) {
-                dogStates.replace(state, dogStates.get(state) + ((int) (Math.random() * 10000) + 5000));
-                System.out.println(dogStates.get(state));
+                dogStates.replace(state, dogStates.get(state) + (gainedOwnVotes));
             }
             else if (catStates.containsKey(state)) {
-                catStates.replace(state, catStates.get(state) + ((int) (Math.random() * 10000) + 1000));
-                System.out.println(catStates.get(state));
-            }
+                catStates.replace(state, catStates.get(state) + gainedOppVotes);
+        }
         }
         if (party.equals("cat")) {
             if (dogStates.containsKey(state)) {
-                dogStates.replace(state, dogStates.get(state) + ((int) (Math.random() * 10000) + 1000));
-                System.out.println(dogStates.get(state));
+                dogStates.replace(state, dogStates.get(state) + gainedOppVotes);
             }
             else if (catStates.containsKey(state)) {
-                catStates.replace(state, catStates.get(state) + ((int) (Math.random() * 10000) + 5000));
-                System.out.println(catStates.get(state));
+                catStates.replace(state, catStates.get(state) + gainedOwnVotes);
             }
         }
-        if (swingStates.containsKey(state)){
-            swingStates.replace(state, swingStates.get(state) + ((int) (Math.random()*10000)+10000));
-            System.out.println(swingStates.get(state));
+        if (swingStates.containsKey(state)) {
+            swingStates.replace(state, swingStates.get(state) + gainedSwingVotes);
         }
         energy -= 5;
     }
@@ -223,12 +243,12 @@ public class Campaign {
                 "Los gatos son muy adorables, ¡apoya a los gatos ya!"};
         String[] dogPosts = {"Dogs are so adorable, come support the dogs now!","Les chiens sont très adorables, venez soutenir les chats maintenant!","狗狗很可爱，快来支持狗狗吧!",
                 "Los perros son muy adorables, ¡apoya a los perros ya!"};
-        int postTest = (int) (Math.random() * 4);
+        int post = (int) (Math.random() * 4);
         if (party.equals("cat")) {
-            meow = catPosts[postTest];
+            meow = catPosts[post];
         }
         else {
-            meow = dogPosts[postTest];
+            meow = dogPosts[post];
         }
         return meow;
     }
@@ -248,7 +268,7 @@ public class Campaign {
         oppVotes += (int) (Math.random() * (day * 1000) + 1000);
         return test;
     }
-
+    
     public int finalVotes(Integer votes) {
         for (int i : catStates.values()) {
             yourVotes += i;
@@ -259,7 +279,8 @@ public class Campaign {
         for (int i : swingStates.values()) {
             yourVotes += i;
         }
-        yourVotes += votes * voteMultiplier;
+        yourVotes += votes;
+        yourVotes = (int) (yourVotes * voteMultiplier);
         return yourVotes;
     }
 

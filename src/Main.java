@@ -1,9 +1,7 @@
 import java.util.Scanner;
-import java.text.DecimalFormat;
 
 public class Main {
     public static void main(String[] args) {
-        DecimalFormat format = new DecimalFormat("#.##");
         Scanner s = new Scanner(System.in);
 
         // Beginning of the game
@@ -18,27 +16,94 @@ public class Main {
             party = s.nextLine().toLowerCase();
             campaign.changeParty(party);
         }
+        campaign.starterVotes();
         System.out.println(campaign.partyConfirmation(party));
+        Debate debate = new Debate (name, party);
 
-        /* while (campaign.showDay() < 31) {
+        while (campaign.showDay() < 21) {
+            if (campaign.showDay() == 15 ){
+                int response;
+                debate.randomName();
+            for (int i = 0; i < 4; i++) {
+                System.out.println(debate.debateMessage(i));
+                boolean checkResponse = false;
+                if (i == 3) {
+                    s.nextLine();
+                    String finalWords = s.nextLine();
+                    debate.finalWords(finalWords);
+                }
+                else {
+                while (!checkResponse){
+                try {
+                    response = s.nextInt();
+                    if (!debate.checkResponse(response)) {
+                        debate.debateVotes(response);
+                        debate.oppDebateVotes();
+                        checkResponse = true;
+                    }
+                    else {
+                        System.out.println("Please enter a valid option. (1-3)");
+                        s.nextLine();
+                    }
+                }
+                catch (Exception e) {
+                    System.out.println("Please enter a number. (1-3)");
+                    s.nextLine();
+                }
+            }
+                }
+            }
+            System.out.println("Bird: That's all for today folks! See you all later on Bird News!");
+            campaign.sleep();
+            }
+            else if (campaign.showDay() == 20) {
+                System.out.println("It's Election Day! Let's see how well you did...");
+                int additionalVotes = debate.yourVotes();
+                int finalVotes = campaign.finalVotes(additionalVotes);
+                System.out.println("Your votes: " + finalVotes);
+                int oppAdditionalVotes = debate.oppVotes();
+                int oppFinalVotes = campaign.oppVotes(oppAdditionalVotes);
+                System.out.println("Opponent's votes: " + oppFinalVotes);
+            if (finalVotes > oppFinalVotes) {
+                System.out.println("You win! Congrats!");
+            }
+            else {
+                System.out.println("Better luck next time.");
+            }
+            campaign.sleep();
+            }
+            else {
             System.out.println(campaign.campaignMessage());
-            Integer option = s.nextInt();
-            s.nextLine();
-            while (campaign.invalidOption(option)){
-                System.out.println("Please choose a valid option. (1-4)");
-                option = s.nextInt();
-                s.nextLine();
+            String option = s.nextLine();
+            if (campaign.showEnergy() == 0) {
+                while (!option.equals("4")) {
+                    System.out.println("Please enter a valid option. (4)");
+                    option = s.nextLine();
+                }
             }
-            System.out.println(campaign.checkOption(option, campaign.pass));
-            if (campaign.pass) {
+            System.out.println(campaign.checkOption(option));
+            while (campaign.pass) {
                 String response = s.nextLine();
-                System.out.println(campaign.campaignOptions(option, response));
-            }
+                if (option.equals("2")) {
+                    try {
+                        Integer.parseInt(response);
+                        System.out.println(campaign.campaignOptions(option,response));
+                    }
+                    catch (Exception e) {
+                        System.out.println("Please enter a number.");
+                        continue;
+                    }
+                }
+                else {
+                    System.out.println(campaign.campaignOptions(option, response));
+                }
+            } 
             campaign.pass = true;
         }
-        s.close(); */
+        }
+        s.close(); 
         // Main game
-        Debate test = new Debate(name, party);
+        /* Debate test = new Debate(name, party);
         while (campaign.showDay() < 31) {
             String debate = (20 - campaign.showDay()) + " days before the Presidential Debate, ";
             if (campaign.showDay() == 20) {
@@ -77,7 +142,7 @@ public class Main {
             else if (campaign.showDay() > 19) {
                 debate = "";
             }
-            if (!(campaign.showDay() == 20) && (campaign.showDay() != 30)) {
+            if ((campaign.showDay() != 20) && (campaign.showDay() != 30)) {
                 if (campaign.showEnergy() == 0) {
                     System.out.println("\nDay " + campaign.showDay() + ": " + debate + (30 - campaign.showDay()) + " days before Election Day.");
                     System.out.println("Your budget is: " + format.format(campaign.showBudget()) + ", your energy is: " + campaign.showEnergy() + ". What do you want to do today?");
@@ -151,6 +216,6 @@ public class Main {
                 campaign.sleep();
             }
         } 
-        s.close();
+        s.close(); */
     }
 }
