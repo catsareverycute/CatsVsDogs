@@ -80,7 +80,6 @@ public class Debate {
                 votes += 150000;
             }
         }
-        System.out.println(votes);
     }
 
     public void finalWords(String finalWords) { // checks final words inputted by user to see if they gain additional votes

@@ -1,5 +1,5 @@
-import java.util.HashMap;
-import java.text.DecimalFormat;
+import java.util.HashMap; // hashmap to store a key and value (state and votes)
+import java.text.DecimalFormat; // formats numbers as #.## (money)
 
 public class Campaign {
     DecimalFormat format = new DecimalFormat("#.##"); // formats money
@@ -193,15 +193,15 @@ public class Campaign {
     public void hireWorkers(int workers) { // updates total amount of workers, removing money but adding a vote multiplier, decreasing energy 
         this.workers += workers;
         budget -= 1000 * workers;
-        voteMultiplier = Math.pow(1.05, this.workers);
+        voteMultiplier = Math.pow(1.005, this.workers);
         energy--;
     }
 
     public void travelState(String state) { // decreases budget while increasing votes in a given state depending on party
         budget -= 10000;
-        int gainedOwnVotes = ((int) (Math.random() * 10000) + 5000);
-        int gainedOppVotes = ((int) (Math.random() * 10000) + 1000);
-        int gainedSwingVotes = ((int) (Math.random() * 10000) + 10000);
+        int gainedOwnVotes = ((int) (Math.random() * 25000) + 5000);
+        int gainedOppVotes = ((int) (Math.random() * 25000) + 1000);
+        int gainedSwingVotes = ((int) (Math.random() * 25000) + 10000);
         if (party.equals("dog")) {
             if (dogStates.containsKey(state)) {
                 dogStates.replace(state, dogStates.get(state) + (gainedOwnVotes));
@@ -252,7 +252,7 @@ public class Campaign {
         }
         energy = 5; // resets energy back to 5
         day++; // goes to next day
-        oppVotes += (int) (Math.random() * (day * 10000) + 1000); // gives opponent some votes
+        oppVotes += (int) (Math.random() * (day * 10000) + 10000); // gives opponent some votes
         return test;
     }
 
